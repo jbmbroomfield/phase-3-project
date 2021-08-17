@@ -15,6 +15,11 @@ class CLI
         puts ['', 'Goodbye!']
     end
 
+    def promptYesNo(text)
+        input = self.prompt("#{text} (Y/n)")
+        input[0] && input[0].downcase == 'n'
+    end
+
     def prompt(text)
         puts text if text.length > 0
         gets.strip
@@ -25,13 +30,18 @@ class CLI
     end
 
     def run_game
-        Scraper.create_quotes(self.page)
-        return true if Quote.all.length == 0
+        return true if self.create_quotes
         self.show_quotes
         self.show_score
         self.page += 1
-        input = self.prompt("Would you like to continue? (Y/n)")
-        return input[0] && input[0].downcase == 'n'
+        self.promptYesNo("Would you like to continue?")
+    end
+
+    def create_quotes
+        Scraper.create_quotes(self.page)
+        return false if Quote.all.length > 0
+        puts "You have made it through all of the quotes."
+        true
     end
 
     def show_quotes
@@ -57,7 +67,6 @@ class CLI
     end
 
     def get_integer_response(min, max)
-        response = nil
         loop do
             response = Integer(gets.strip) rescue nil
             break if self.check_integer(response, min, max)
@@ -92,10 +101,8 @@ class CLI
     end
 
     def learn_more(author)
-        response = self.prompt("Would you like to learn more about #{author.name}? (Y/n)")
-        if !response[0] || response[0].downcase != 'n'
-            self.show_author(author)
-        end
+        response = self.promptYesNo("Would you like to learn more about #{author.name}?")
+        self.show_author(author) if response
     end
 
     def show_author(author)
