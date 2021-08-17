@@ -18,19 +18,15 @@ class Scraper
         page = self.get_page(url)
         birth_date = page.css('.author-born-date').text
         birth_location = page.css('.author-born-location').text
-        born = "#{birth_date} #{birth_location}"
         description = page.css('.author-description').text
-        [born, description]
+        ["#{birth_date} #{birth_location}", description]
     end
 
     def self.create_quotes(page)
-        Quote.reset
-        Author.reset
+        [Quote, Author].each { |A| => A.reset }
         url = page > 1 ? "/page/#{page}" : ''
         quotes = self.get_quotes(url)
-        quotes.each do |quote|
-            self.new_quote(quote)
-        end
+        quotes.each { |quote| self.new_quote(quote) }
     end
 
     def self.new_quote(quote)
