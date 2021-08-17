@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/environment.rb'
+
+CLI.new.run
+
+# Scraper.create_quotes
+# Scraper.create_quotes('/page/2/')
+
+# puts Quote.all
+
+# Quote.all.each do |quote|
+#     puts quote
+# end
+
+# puts Scraper.get_page('/author/Albert-Einstein/')
+
