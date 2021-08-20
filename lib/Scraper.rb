@@ -27,6 +27,7 @@ class Scraper
         url = page > 1 ? "/page/#{page}" : ''
         quotes = self.get_quotes(url)
         quotes.each { |quote| self.new_quote(quote) }
+        Quote.all
     end
 
     def self.new_quote(quote)
