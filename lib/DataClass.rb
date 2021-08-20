@@ -1,4 +1,4 @@
-class ClassObject
+class DataClass
 
 	class << self
 		attr_accessor :all

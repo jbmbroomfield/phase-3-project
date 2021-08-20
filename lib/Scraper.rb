@@ -23,7 +23,7 @@ class Scraper
     end
 
     def self.create_quotes(page)
-        [Quote, Author].each { |A| => A.reset }
+        [Quote, Author].each { |className| className.reset }
         url = page > 1 ? "/page/#{page}" : ''
         quotes = self.get_quotes(url)
         quotes.each { |quote| self.new_quote(quote) }

@@ -8,11 +8,25 @@ class CLI
     end
 
     def run
-        puts "Welcome."
-        self.prompt("Press any key to begin.")
-        until self.run_game
+        system 'clear'
+        puts [
+                "Welcome to the Quotes CLI. What would you like to do?",
+                '',
+                '(1) Play a quote matching game.',
+                '(2) Search for quotes by their tags.',
+                '(3) Exit.',
+            ]
+        response = get_integer_response(1, 3)
+
+        if response == 1
+            self.prompt("Press enter to begin.")
+            until self.run_game
+            end
+        elsif response == 2
+            puts 'Enter a tag to search by.'
         end
-        puts ['', 'Goodbye!']
+        system 'clear'
+        puts ['Goodbye!', '']
     end
 
     def promptYesNo(text)
@@ -67,6 +81,7 @@ class CLI
     end
 
     def get_integer_response(min, max)
+        response = nil
         loop do
             response = Integer(gets.strip) rescue nil
             break if self.check_integer(response, min, max)

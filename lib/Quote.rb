@@ -1,4 +1,4 @@
-class Quote < ClassObject
+class Quote < DataClass
 
     attr_accessor :text, :author
 

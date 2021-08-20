@@ -1,4 +1,4 @@
-class Author < ClassObject
+class Author < DataClass
 
     attr_accessor :name, :url
     attr_writer :born, :description
