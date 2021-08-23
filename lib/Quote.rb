@@ -8,6 +8,7 @@ class Quote < DataClass
     end
 
     def self.find_or_new(text, *args)
+        self.all ||= []
         self.find_by(text: text) || self.new(text, *args)
     end
 

@@ -26,7 +26,7 @@ class CliPage < DataClass
     end
 
     def get_quotes
-        @quotes = Scraper.get_quotes(page_number)
+        @quotes = Scraper.get_quotes_by(page_number: page_number)
     end
 
     def get_authors

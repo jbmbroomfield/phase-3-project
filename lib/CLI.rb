@@ -5,16 +5,11 @@ class CLI
     def run
         show_menu
         response = get_integer_response(1, 3)
-
-        if response == 1
-            CliGame.get_and_run
-            run
-        elsif response == 2
-            puts 'Enter a tag to search by.'
-        end
-        clear
-        puts ['Goodbye!', '']
+        accept_response(response)
+        terminate
     end
+
+    private
 
     def show_menu
         clear
@@ -27,8 +22,27 @@ class CLI
             ]
     end
 
-    def tag_search
+    def accept_response(response)
+        if response == 1
+            run_game
+        elsif response == 2
+            run_tag_search
+        end
+    end
+
+    def run_game
+        CliGame.get_and_run
+        run
+    end
+
+    def run_tag_search
         tag = prompt('Enter a tag to search by.')
+        run
+    end
+
+    def terminate
+        clear
+        puts ['Goodbye!', '']
     end
 
 end

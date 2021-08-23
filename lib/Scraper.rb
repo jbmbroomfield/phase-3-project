@@ -5,15 +5,20 @@ class Scraper
 
     @@base_url = 'https://quotes.toscrape.com'
 
-    def self.get_quotes(page_number)
-        [Quote, Author].each { |className| className.reset }
-        url = page_number > 1 ? "/page/#{page_number}" : ''
+    def self.get_quotes_by(tag: nil, page_number: nil)
+        url = self.tag_url(tag) + self.page_url(page_number)
         quote_elements = self.get_quote_elements(url)
-        quote_elements.each { |quote_element| self.find_or_new_quote(quote_element) }
+        quote_elements.map { |quote_element| self.find_or_new_quote(quote_element) }
         Quote.all
     end
 
-    private
+    def self.tag_url(tag)
+        tag ? "/tag/#{tag}" : ''
+    end
+
+    def self.page_url(page_number)
+        page_number && page_number > 1 ? "/page/#{page_number}" : ''
+    end
 
     def self.get_page(url='')
         url = @@base_url + url + '/'
