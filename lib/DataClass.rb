@@ -2,14 +2,22 @@ class DataClass
 
 	class << self
 		attr_accessor :all
+
+		def initialize
+			self.class.all = []
+		end
+
 	end
 
-	def set_all(value)
-		self.class.all = value
+	def self.find_by(**kwargs)
+		self.all.find { |instance| self.all_match?(instance, **kwargs) }
 	end
 
-	def get_all
-		self.class.all
+	def self.all_match?(instance, **kwargs)
+		kwargs.each do |key, value|
+			return false if instance.send(key) != value
+		end
+		true
 	end
 
     def self.new(*args)
@@ -18,6 +26,10 @@ class DataClass
         self.all << new_object
         new_object
     end
+	
+	def self.new_many(*many)
+		many.map { |args| self.new(*args) }
+	end
 
     def self.reset
         self.all = []

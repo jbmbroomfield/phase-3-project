@@ -5,12 +5,22 @@ class Scraper
 
     @@base_url = 'https://quotes.toscrape.com'
 
+    def self.get_quotes(page_number)
+        [Quote, Author].each { |className| className.reset }
+        url = page_number > 1 ? "/page/#{page_number}" : ''
+        quote_elements = self.get_quote_elements(url)
+        quote_elements.each { |quote_element| self.find_or_new_quote(quote_element) }
+        Quote.all
+    end
+
+    private
+
     def self.get_page(url='')
         url = @@base_url + url + '/'
         Nokogiri::HTML(open(url))
     end
 
-    def self.get_quotes(url='')
+    def self.get_quote_elements(url='')
         self.get_page(url).css('.quote')
     end
 
@@ -22,19 +32,11 @@ class Scraper
         ["#{birth_date} #{birth_location}", description]
     end
 
-    def self.create_quotes(page)
-        [Quote, Author].each { |className| className.reset }
-        url = page > 1 ? "/page/#{page}" : ''
-        quotes = self.get_quotes(url)
-        quotes.each { |quote| self.new_quote(quote) }
-        Quote.all
-    end
-
-    def self.new_quote(quote)
-        text = quote.css('.text').text
-        author_name = quote.css('.author').text
-        author_url = quote.css('a')[0].attributes["href"].value
-        Quote.new(text, author_name, author_url)
+    def self.find_or_new_quote(quote_element)
+        text = quote_element.css('.text').text
+        author_name = quote_element.css('.author').text
+        author_url = quote_element.css('a')[0].attributes["href"].value
+        Quote.find_or_new(text, author_name, author_url)
     end
 
 end

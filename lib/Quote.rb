@@ -6,5 +6,13 @@ class Quote < DataClass
         self.text = text
         self.author = Author.find_or_new(author_name, author_url)
     end
+
+    def self.find_or_new(text, *args)
+        self.find_by(text: text) || self.new(text, *args)
+    end
+
+    def to_s
+        author.name
+    end
     
 end
