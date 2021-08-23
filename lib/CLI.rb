@@ -36,7 +36,7 @@ class CLI
     end
 
     def run_tag_search
-        tag = prompt('Enter a tag to search by.')
+        CliTagSearch.new.run
         run
     end
 
