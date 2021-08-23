@@ -1,4 +1,4 @@
-class CliPage
+class CliPage < DataClass
 
     include CliCommands
 

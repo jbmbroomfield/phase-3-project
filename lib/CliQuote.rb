@@ -32,7 +32,7 @@ class CliQuote
 
     def show_question
         clear
-        puts ['Who said the following quote?', quote.text, '']
+        puts ['Who said the following quote?', '', quote.text, '']
     end
 
     def show_author_options
