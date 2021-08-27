@@ -5,6 +5,8 @@ class Author < DataClass
     def initialize(name, url)
         @name = name
         @url = url
+        @born = nil
+        @description = nil
     end
 
     def born
