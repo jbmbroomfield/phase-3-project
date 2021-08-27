@@ -1,6 +1,5 @@
 require 'nokogiri'
 require 'open-uri'
-require 'pry'
 
 require_relative '../lib/DataClass.rb'
 require_relative '../lib/Scraper.rb'
