@@ -1,42 +1,41 @@
 class Author < DataClass
 
-    attr_accessor :name, :url
-    attr_writer :born, :description
+    attr_reader :name
 
     def initialize(name, url)
-        self.name = name
-        self.url = url
+        @name = name
+        @url = url
     end
 
     def born
-        self.set_born_and_description if !@born
+        set_born_and_description if !@born
         @born
     end
 
     def description
-        self.set_born_and_description if !@description
+        set_born_and_description if !@description
         @description
     end
 
     def set_born_and_description
-        self.born, self.description = Scraper.get_born_and_description(self.url)
+        @born, @description = Scraper.get_born_and_description(@url)
     end
 
     def to_s
-        self.name
+        @name
     end
 
     def self.find_or_new(*args)
-        self.find_by_name(args[0]) || self.new(*args)
+        find_by_name(args[0]) || new(*args)
     end
 
     def self.find_by_name(name)
-        self.all && self.all.find { |author| author.name == name }
+        all && all.find { |author| author.name == name }
     end
 
     def self.new(*args)
         author = super(*args)
-        self.all.sort_by!(&:name)
+        all.sort_by!(&:name)
         author
     end
 

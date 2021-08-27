@@ -1,6 +1,4 @@
 class CliQuote
-
-    attr_accessor :quote, :authors, :chosen_author
     
     include CliCommands
 
@@ -9,7 +7,7 @@ class CliQuote
         show_chosen_author
         show_correct_author
         learn_more
-        chosen_author == quote.author ? 1 : 0
+        @chosen_author == @quote.author ? 1 : 0
     end
 
     private
@@ -17,36 +15,37 @@ class CliQuote
     def initialize(quote, authors)
         @quote = quote
         @authors = authors
+        @chosen_author = nil
     end
 
     def correct_author
-        quote.author
+        @quote.author
     end
 
     def ask_for_author
         show_question
         show_author_options
-        response = get_integer_response(1, authors.length)
-        @chosen_author = authors[response - 1]
+        response = get_integer_response(1, @authors.length)
+        @chosen_author = @authors[response - 1]
     end
 
     def show_question
         clear
-        puts ['Who said the following quote?', '', quote.text, '']
+        puts ['Who said the following quote?', '', @quote.text, '']
     end
 
     def show_author_options
-        puts authors.each_with_index.map { |author, index| "(#{index + 1}) #{author}" }
+        puts @authors.each_with_index.map { |author, index| "(#{index + 1}) #{author}" }
         puts
     end
 
     def show_chosen_author
         show_question
-        puts ["You chose #{chosen_author}.", '']
+        puts ["You chose #{@chosen_author}.", '']
     end
 
     def show_correct_author
-        chosen_author == correct_author ? correct : incorrect
+        @chosen_author == correct_author ? correct : incorrect
         puts
     end
 

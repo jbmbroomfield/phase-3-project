@@ -1,6 +1,6 @@
 class CliTagSearch
 
-    attr_accessor :tag, :quotes
+    # attr_accessor :tag, :quotes
 
     include CliCommands
 
@@ -17,7 +17,7 @@ class CliTagSearch
     end
 
     def get_quotes
-        @quotes = Scraper.get_quotes_by(tag: tag)
+        @quotes = Scraper.get_quotes_by(tag: @tag)
     end
 
     def show_quotes
